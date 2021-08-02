@@ -83,8 +83,19 @@ public class Main extends Application {
         BorderPane mainlayout = new BorderPane();
         mainlayout.setTop(menuBar);
 
-        Label label = new Label("Welcome");
-        mainlayout.setCenter(label);
+        Label label = new Label("WELCOME");
+        Button create = new Button("Create");
+        create.setMinWidth(100);
+        create.setMinHeight(50);
+        Button search = new Button("Search");
+        search.setMinWidth(100);
+        search.setMinHeight(50);
+        Button update = new Button("Update");
+        update.setMinWidth(100);
+        update.setMinHeight(50);
+        Button delete = new Button("Delete");
+        delete.setMinWidth(100);
+        delete.setMinHeight(50);
 
         mainscene = new Scene(mainlayout, 750, 500);
         window.setScene(mainscene);
@@ -130,7 +141,7 @@ public class Main extends Application {
 
         submit.setOnAction(e -> {
             if(fname_Input.getText()!="" && lname_Input.getText()!="" && email_Input.getText()!="" && phone_Input.getText()!="") {
-                boolean result = AlertBox.create("New Employee", "Are you sure you want to create this employee");
+                boolean result = AlertBox.alert("New", "Are you sure you want to create this employee");
                 if (result) {
                     if(isInt(phone_Input)){
                         AlertBox.success("New employee created!");
@@ -273,25 +284,25 @@ public class Main extends Application {
             grid.setVgap(30);
             grid.setHgap(20);
 
-            Label fname = new Label("First_Name ");
+            Label fname = new Label("First_Name:");
             GridPane.setConstraints(fname, 5, 0);
             TextField fname_Input = new TextField();
             fname_Input.setText(updateEmployeeFname());
             GridPane.setConstraints(fname_Input, 6, 0);
 
-            Label lname = new Label("Last_Name ");
+            Label lname = new Label("Last_Name:");
             GridPane.setConstraints(lname, 5, 1);
             TextField lname_Input = new TextField();
             lname_Input.setText(updateEmployeeLname());
             GridPane.setConstraints(lname_Input, 6, 1);
 
-            Label email = new Label("Email ");
+            Label email = new Label("Email:");
             GridPane.setConstraints(email, 5, 2);
             TextField email_Input = new TextField();
             email_Input.setText(updateEmployeeEmail());
             GridPane.setConstraints(email_Input, 6, 2);
 
-            Label phone = new Label("Phone ");
+            Label phone = new Label("Phone:");
             GridPane.setConstraints(phone, 5, 3);
             TextField phone_Input = new TextField();
             phone_Input.setText(updateEmployeeTel().toString());
@@ -301,7 +312,7 @@ public class Main extends Application {
             Button update = new Button("update");
             update.setOnAction(e -> {
                 if(fname_Input.getText()!="" && lname_Input.getText()!="" && email_Input.getText()!="" && phone_Input.getText()!="") {
-                    boolean result = AlertBox.update("Update Employee", "Are you sure you want to update this employee");
+                    boolean result = AlertBox.alert("Update", "Are you sure you want to update this employee?");
                     if (result) {
                         if(isInt(phone_Input)){
                             AlertBox.success("Employee updated succesfully!");
@@ -372,7 +383,7 @@ public class Main extends Application {
         selected = table.getSelectionModel().getSelectedItems();
 
         if(selected.size()>0) {
-            Boolean result = AlertBox.delete("Delete Employee", "Are you sure you want to remove this employee?");
+            Boolean result = AlertBox.alert("Delete", "Are you sure you want to remove this employee?");
             if(result) {
                 String employeeEmail = selected.get(0).getEmail();
                 dbObject.deleteEmployee(employeeEmail);
