@@ -1,4 +1,5 @@
 import  java.sql.*;
+import java.util.*;
 
 public class Database {
 
@@ -6,7 +7,7 @@ public class Database {
 
     public void connect_toDB(){
         try{
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             cursor = DriverManager.getConnection("jdbc:mysql://localhost:3306/employee_app", "root", "brightai");
         }catch (Exception e){
             System.out.println(e);
@@ -14,7 +15,7 @@ public class Database {
 
     }
 
-    public void create_DB (){
+    public void create_TB (){
         try {
             String formula = "CREATE TABLE employees ("
                     + "Full_Name varchar(100),"
@@ -47,20 +48,68 @@ public class Database {
 
     }
 
-    public void viewEmployees(){
+    public ArrayList<Integer> EmployeesPhones() {
+
+        ArrayList<Integer> employeePhones = new ArrayList<>();
+
         try {
             Statement stmt = cursor.createStatement();
             ResultSet employee = stmt.executeQuery("SELECT * FROM employees");
+
+            while (employee.next()) {
+                int phone = employee.getInt("Phone");
+                employeePhones.add(phone);
+
+            }
+            stmt.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return employeePhones;
+
+    }
+
+    public ArrayList<String> EmployeeNames(){
+
+        ArrayList<String> employeeNames = new ArrayList<>();
+
+        try {
+            Statement stmt = cursor.createStatement();
+            ResultSet employee = stmt.executeQuery("SELECT * FROM employees");
+
             while (employee.next()) {
                 String name = employee.getString("Full_Name");
+                employeeNames.add(name);
+
+            }
+            stmt.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return employeeNames;
+
+    }
+    public ArrayList<String> EmployeesEmails(){
+
+        ArrayList<String> employeeEmails = new ArrayList<>();
+
+        try {
+            Statement stmt = cursor.createStatement();
+            ResultSet employee = stmt.executeQuery("SELECT * FROM employees");
+
+            while (employee.next()) {
                 String email = employee.getString("Email");
-                int phone = employee.getInt("Phone");
+                employeeEmails.add(email);
+
             }
             stmt.close();
         }catch (Exception e){
             System.out.println(e);
         }
 
+        return employeeEmails;
 
     }
 
@@ -73,7 +122,7 @@ public class Database {
     public void deleteEmployee(String email){
         try {
             PreparedStatement stmt = cursor.prepareStatement("DELETE FROM employees WHERE Email = ?");
-            stmt.setString(2, email);
+            stmt.setString(1, email);
             stmt.executeUpdate();
             System.out.println("success");
             stmt.close();
