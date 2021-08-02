@@ -114,9 +114,32 @@ public class Database {
     }
 
 
-    //public void updateEmployee(String name, String email, int tel){
+    public void updateEmployee(String name, String email, int tel, String id){
 
-    //}
+        Integer temp = tel;
+        String phone = temp.toString();
+        try {
+            PreparedStatement stmt = cursor.prepareStatement(
+                    "UPDATE employees " +
+                        "SET Full_Name = ?, Email = ?, Phone = ? " +
+                        "WHERE Email = ?");
+
+            stmt.setString(1, name);
+            stmt.setString(2, email);
+            stmt.setString(3, phone);
+            stmt.setString(4, id);
+            stmt.executeUpdate();
+            stmt.close();
+
+
+            System.out.println("success");
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+
+    }
 
 
     public void deleteEmployee(String email){
