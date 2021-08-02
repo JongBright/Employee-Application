@@ -39,8 +39,12 @@ public class Main extends Application {
 
         window = primaryStage;
         window.setTitle("Employee App");
-        //window.setMaxHeight(250);
-        //window.setMaxWidth(750);
+        window.setMaxHeight(470);
+        window.setMaxWidth(750);
+        window.setMinHeight(470);
+        window.setMinWidth(750);
+        window.setHeight(470);
+        window.setWidth(750);
 
         //MENU
         // File menu
@@ -91,35 +95,34 @@ public class Main extends Application {
     // Create window
     public void scene1 (){
         window.setTitle("Employee App");
-        Label label = new Label("Fill the given form to create a new employee");
-
-
         GridPane grid = new GridPane();
+        Label label = new Label("                 @EMPLOYEE FORM                                             ");
+        GridPane.setConstraints(label, 7, 0);
+
         grid.setPadding(new Insets(40, 40, 40, 40));
         grid.setVgap(30);
         grid.setHgap(20);
 
-        GridPane.setConstraints(label, 1, 0);
 
-        Label fname = new Label("First_Name ");
-        GridPane.setConstraints(fname, 5, 0);
+        Label fname = new Label("First_Name:");
+        GridPane.setConstraints(fname, 6, 2);
         TextField fname_Input = new TextField();
-        GridPane.setConstraints(fname_Input, 6, 0);
+        GridPane.setConstraints(fname_Input, 7, 2);
 
-        Label lname = new Label("Last_Name ");
-        GridPane.setConstraints(lname, 5, 1);
+        Label lname = new Label("Last_Name:");
+        GridPane.setConstraints(lname, 6, 3);
         TextField lname_Input = new TextField();
-        GridPane.setConstraints(lname_Input, 6, 1);
+        GridPane.setConstraints(lname_Input, 7, 3);
 
-        Label email = new Label("Email ");
-        GridPane.setConstraints(email, 5, 2);
+        Label email = new Label("Email:");
+        GridPane.setConstraints(email, 6, 4);
         TextField email_Input = new TextField();
-        GridPane.setConstraints(email_Input, 6, 2);
+        GridPane.setConstraints(email_Input, 7, 4);
 
-        Label phone = new Label("Phone ");
-        GridPane.setConstraints(phone, 5, 3);
+        Label phone = new Label("Phone:");
+        GridPane.setConstraints(phone, 6, 5);
         TextField phone_Input = new TextField();
-        GridPane.setConstraints(phone_Input, 6, 3);
+        GridPane.setConstraints(phone_Input, 7, 5);
 
 
         Button submit = new Button("Submit");
@@ -156,11 +159,11 @@ public class Main extends Application {
         });
 
 
-        GridPane.setConstraints(submit, 5, 7);
-        GridPane.setConstraints(cancel, 5, 8);
+        GridPane.setConstraints(submit, 6, 7);
+        GridPane.setConstraints(cancel, 8, 7);
 
-        grid.getChildren().addAll(fname, fname_Input,lname, lname_Input,email, email_Input, phone, phone_Input, submit, cancel);
-        Scene temp1 = new Scene(grid, 750, 460);
+        grid.getChildren().addAll(label, fname, fname_Input,lname, lname_Input,email, email_Input, phone, phone_Input, submit, cancel);
+        Scene temp1 = new Scene(grid, 750, 470);
         window.setScene(temp1);
         window.show();
 
@@ -243,7 +246,7 @@ public class Main extends Application {
 
         layout.getChildren().addAll(table, grid);
 
-        scene = new Scene(layout, 750, 460);
+        scene = new Scene(layout, 750, 470);
         window.setScene(scene);
 
     }
