@@ -291,17 +291,14 @@ public class Main extends Application {
 
 
         Button update = new Button("update");
+        GridPane.setConstraints(update, 5, 5);
 
         Button cancel = new Button("cancel");
         cancel.setOnAction(e -> scene2());
+        GridPane.setConstraints(cancel, 7, 5);
 
-        HBox hbox = new HBox();
-        hbox.getChildren().addAll(update, cancel);
-        update.setAlignment(Pos.CENTER_LEFT);
-        cancel.setAlignment(Pos.CENTER_RIGHT);
-
-        grid.getChildren().addAll(fname, fname_Input,lname, lname_Input,email, email_Input, phone, phone_Input);
-        layout.getChildren().addAll(grid, hbox);
+        grid.getChildren().addAll(fname, fname_Input,lname, lname_Input,email, email_Input, phone, phone_Input, update, cancel);
+        layout.getChildren().addAll(grid);
 
         Scene scene = new Scene(layout);
         box.setScene(scene);
