@@ -81,21 +81,61 @@ public class Main extends Application {
 
         // Main scene and layout
         BorderPane mainlayout = new BorderPane();
-        mainlayout.setTop(menuBar);
+        VBox vbox1 = new VBox();
+        VBox vbox2 = new VBox();
+        HBox hbox = new HBox();
 
-        Label label = new Label("WELCOME");
+        mainlayout.setTop(menuBar);
+        mainlayout.setRight(vbox1);
+        mainlayout.setLeft(vbox2);
+        mainlayout.setBottom(hbox);
+
+        TextArea blank = new TextArea();
+        blank.setText("");
+        blank.setMinWidth(500);
+        blank.setMinHeight(300);
+
+        Label label = new Label("BRIGHT AI Employee App");
+
         Button create = new Button("Create");
         create.setMinWidth(100);
         create.setMinHeight(50);
+        create.setOnAction(e -> {
+            Boolean result = AlertBox.alert("Create", "Do you want to create a new employee");
+            if(result){
+                scene1();
+            }
+
+        });
+
+        Button list = new Button("Employees");
+        list.setMinWidth(100);
+        list.setMinHeight(50);
+        list.setOnAction(e -> {
+            Boolean result = AlertBox.alert("View employees", "Do you want to see all employees?");
+            if(result){
+                scene2();
+            }
+
+        });
+
         Button search = new Button("Search");
+        search.setOnAction(e -> search());
         search.setMinWidth(100);
         search.setMinHeight(50);
-        Button update = new Button("Update");
-        update.setMinWidth(100);
-        update.setMinHeight(50);
+
         Button delete = new Button("Delete");
+        delete.setOnAction(e -> delete());
         delete.setMinWidth(100);
         delete.setMinHeight(50);
+
+        hbox.setPadding(new Insets(10, 10, 10, 270));
+        hbox.getChildren().add(label);
+        vbox1.setPadding(new Insets(30, 30, 30, 30));
+        vbox1.setSpacing(30);
+        vbox1.getChildren().addAll(create, list, search, delete);
+        vbox2.setPadding(new Insets(30, 30, 30, 30));
+        vbox2.getChildren().add(blank);
 
         mainscene = new Scene(mainlayout, 750, 500);
         window.setScene(mainscene);
@@ -139,18 +179,23 @@ public class Main extends Application {
         Button submit = new Button("Submit");
         Button cancel = new Button("Cancel");
 
+        ArrayList<String> existing_emails = dbObject.EmployeesEmails();
+        ArrayList<Integer> existing_tels = dbObject.EmployeesPhones();
+
         submit.setOnAction(e -> {
             if(fname_Input.getText()!="" && lname_Input.getText()!="" && email_Input.getText()!="" && phone_Input.getText()!="") {
-                boolean result = AlertBox.alert("New", "Are you sure you want to create this employee");
-                if (result) {
-                    if(isInt(phone_Input)){
-                        AlertBox.success("New employee created!");
+                if(isInt(phone_Input)){
+                    boolean result = AlertBox.alert("New", "Are you sure you want to create this employee");
+                    boolean email_exists = existing_emails.contains(email_Input.getText());
+                    boolean tel_exists = existing_tels.contains(phone_Input.getText());
+                    if(result && !email_exists && !tel_exists) {
                         employee(fname_Input, lname_Input, email_Input, phone_Input);
-                        window.setScene(mainscene);
+                        AlertBox.success("New employee created!");
+                        //window.setScene(mainscene);
                     }
-                }
-                if (!result) {
-                    window.setScene(mainscene);
+                    if (result && (email_exists || tel_exists)) {
+                        AlertBox.error("Employee not added.Either employee email, phone or both already exists");
+                    }
                 }
             }else {
                 TextField inputs[] = {fname_Input, lname_Input, email_Input, phone_Input};
@@ -239,12 +284,7 @@ public class Main extends Application {
         GridPane.setConstraints(delete, 2, 1);
 
         Button back = new Button("return");
-        back.setOnAction(e -> {
-            boolean result = AlertBox.cancel("Are you sure you want to return?");
-            if (result){
-                window.setScene(mainscene);
-            }
-        });
+        back.setOnAction(e -> window.setScene(mainscene));
         GridPane.setConstraints(back, 27, 1);
 
 
@@ -312,18 +352,16 @@ public class Main extends Application {
             Button update = new Button("update");
             update.setOnAction(e -> {
                 if(fname_Input.getText()!="" && lname_Input.getText()!="" && email_Input.getText()!="" && phone_Input.getText()!="") {
-                    boolean result = AlertBox.alert("Update", "Are you sure you want to update this employee?");
-                    if (result) {
-                        if(isInt(phone_Input)){
-                            AlertBox.success("Employee updated succesfully!");
+                    if(isInt(phone_Input)){
+                        boolean result = AlertBox.alert("Update", "Are you sure you want to update this employee?");
+                        if (result) {
                             dbObject.updateEmployee((fname_Input.getText() + " " + lname_Input.getText()), email_Input.getText(), Integer.parseInt(phone_Input.getText()), id);
+                            AlertBox.success("Employee updated succesfully!");
                             box.close();
                             scene2();
                         }
                     }
-                    if (!result) {
-                        scene3();
-                    }
+
                 }else {
                     TextField inputs[] = {fname_Input, lname_Input, email_Input, phone_Input};
                     for(TextField x: inputs){
@@ -361,6 +399,32 @@ public class Main extends Application {
 
     }
 
+    public void search(){
+        Scene scene;
+        GridPane grid = new GridPane();
+        HBox hBox = new HBox();
+        GridPane.setConstraints(hBox, 1, 1);
+
+        Label text = new Label("    Input employee name, email or phone to search                 ");
+        GridPane.setConstraints(text, 0, 0);
+        Label search = new Label(" Search: ");
+        GridPane.setConstraints(search, 0, 1);
+        TextField input = new TextField();
+        GridPane.setConstraints(input, 1, 1);
+
+        hBox.getChildren().addAll(search, input);
+        grid.getChildren().addAll(text, hBox);
+
+        scene = new Scene(grid, 750, 470);
+
+        window.setScene(scene);
+
+
+
+
+
+    }
+
 
 
     //others
@@ -391,6 +455,94 @@ public class Main extends Application {
                 AlertBox.success("Employee removed succesfully");
             }
         }
+    }
+
+    public void delete(){
+
+        Stage box = new Stage();
+        VBox layout = new VBox();
+        GridPane grid = new GridPane();
+
+        box.initModality(Modality.APPLICATION_MODAL);
+        box.setTitle("Delete Employee");
+        box.setMinWidth(550);
+        box.setMinHeight(300);
+
+        grid.setPadding(new Insets(40, 40, 40, 40));
+        grid.setVgap(30);
+        grid.setHgap(20);
+
+        Label fname = new Label("First_Name:");
+        GridPane.setConstraints(fname, 5, 0);
+        TextField fname_Input = new TextField();
+        GridPane.setConstraints(fname_Input, 6, 0);
+
+        Label lname = new Label("Last_Name:");
+        GridPane.setConstraints(lname, 5, 1);
+        TextField lname_Input = new TextField();
+        GridPane.setConstraints(lname_Input, 6, 1);
+
+        Label email = new Label("Email:");
+        GridPane.setConstraints(email, 5, 2);
+        TextField email_Input = new TextField();
+        GridPane.setConstraints(email_Input, 6, 2);
+
+        Label phone = new Label("Phone:");
+        GridPane.setConstraints(phone, 5, 3);
+        TextField phone_Input = new TextField();
+        GridPane.setConstraints(phone_Input, 6, 3);
+
+        ArrayList<String> existing_emails = dbObject.EmployeesEmails();
+        ArrayList<Integer> existing_tels = dbObject.EmployeesPhones();
+
+        Button del = new Button("Delete");
+        del.setOnAction(e -> {
+            if(fname_Input.getText()!="" && lname_Input.getText()!="" && email_Input.getText()!="" && phone_Input.getText()!="") {
+                if(isInt(phone_Input)) {
+                    boolean result = AlertBox.alert("New", "Are you sure you want to delete this employee");
+                    boolean email_exists = existing_emails.contains(email_Input.getText());
+                    boolean tel_exists = existing_tels.contains(phone_Input.getText());
+                    if(result && email_exists && tel_exists) {
+                        dbObject.deleteEmployee(email_Input.getText());
+                        AlertBox.success("Employee deleted succesfully!");
+                        box.close();
+                    }
+                    if (result && (!email_exists || !tel_exists)) {
+                        AlertBox.error(" Employee not removed. Either employee email, phone or both do not exists ");
+                    }
+                }
+
+            }else {
+                TextField inputs[] = {fname_Input, lname_Input, email_Input, phone_Input};
+                for(TextField x: inputs){
+                    if(x.getText()==""){
+                        x.setPromptText("Please fill this blank entry");
+                    }
+                }
+            }
+
+
+        });
+        GridPane.setConstraints(del, 5, 5);
+
+        Button cancel = new Button("cancel");
+        cancel.setOnAction(e -> {
+            Boolean result = AlertBox.cancel("Are you sure you want to discard your changes?");
+            if(result){
+                box.close();
+            }
+        });
+        GridPane.setConstraints(cancel, 7, 5);
+
+        grid.getChildren().addAll(fname, fname_Input,lname, lname_Input,email, email_Input, phone, phone_Input, del, cancel);
+        layout.getChildren().addAll(grid);
+
+        Scene scene = new Scene(layout);
+        box.setScene(scene);
+        box.showAndWait();
+
+
+
     }
 
 

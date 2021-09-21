@@ -22,10 +22,10 @@ public class AlertBox {
 
         box.initModality(Modality.APPLICATION_MODAL);
         box.setTitle(title);
-        box.setMinWidth(350);
-        box.setMinHeight(110);
-        box.setMaxWidth(350);
-        box.setMaxHeight(110);
+        box.setMinWidth(380);
+        box.setMinHeight(140);
+        box.setMaxWidth(380);
+        box.setMaxHeight(140);
 
         Label label = new Label();
         label.setText(message);
@@ -133,8 +133,8 @@ public class AlertBox {
 
         box.initModality(Modality.APPLICATION_MODAL);
         box.setTitle("Success");
-        box.setMinWidth(350);
-        box.setMinHeight(100);
+        box.setMinWidth(380);
+        box.setMinHeight(120);
 
         Button ok = new Button("OK");
         ok.setOnAction(e -> box.close());
@@ -158,8 +158,8 @@ public class AlertBox {
 
         box.initModality(Modality.APPLICATION_MODAL);
         box.setTitle("Error");
-        box.setMinWidth(350);
-        box.setMinHeight(100);
+        box.setMinWidth(410);
+        box.setMinHeight(140);
 
         Button ok = new Button("OK");
         ok.setOnAction(e -> box.close());
@@ -184,10 +184,10 @@ public class AlertBox {
 
         box.initModality(Modality.APPLICATION_MODAL);
         box.setTitle("Cancel");
-        box.setMinWidth(350);
-        box.setMinHeight(110);
-        box.setMaxWidth(350);
-        box.setMaxHeight(110);
+        box.setMinWidth(380);
+        box.setMinHeight(140);
+        box.setMaxWidth(380);
+        box.setMaxHeight(140);
 
         Label label = new Label();
         label.setText(message);
