@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact name="APP:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/APP_jar</output-path>
+    <root id="root">
+      <element id="archive" name="APP.jar">
+        <element id="module-output" name="APP" />
+      </element>
+      <element id="library" level="project" name="lib" />
+    </root>
+  </artifact>
+</component>

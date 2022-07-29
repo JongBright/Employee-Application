@@ -2,18 +2,21 @@ public class Employee {
 
     private String fullName;
     private String email;
-    private int phone;
+    private String phone;
+    private String creationInfo;
 
     public Employee(){
         this.fullName = "";
         this.email = "";
-        this.phone = 0;
+        this.phone = "";
+        this.creationInfo = "";
     }
 
-    public Employee(String name, String eml, int tel){
+    public Employee(String name, String eml, String tel, String ci){
         this.fullName = name;
         this.email = eml;
         this.phone = tel;
+        this.creationInfo = ci;
     }
 
     public String getFullName() {
@@ -32,11 +35,19 @@ public class Employee {
         this.email = email;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getCreationInfo() {
+        return creationInfo;
+    }
+
+    public void setCreationInfo(String creationInfo) {
+        this.creationInfo = creationInfo;
     }
 }

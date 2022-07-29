@@ -1,0 +1,8 @@
+.root {
+    -fx-background-image: url("../images/edit-&-delete-scene-image.jpg");
+    button-hover-color: #87CEEB;
+}
+
+.button:hover {
+    -fx-background-color: button-hover-color;
+}

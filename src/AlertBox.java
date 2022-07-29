@@ -1,15 +1,17 @@
-import javafx.geometry.Insets;
+//import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+//import javafx.scene.Parent;
+//import javafx.application.Application;
+//import javafx.event.ActionEvent;
+//import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.collections.*;
+import javafx.scene.image.Image;
+
 
 
 
@@ -21,6 +23,7 @@ public class AlertBox {
         Stage box = new Stage();
 
         box.initModality(Modality.APPLICATION_MODAL);
+        box.getIcons().add(new Image("button-icons/alert-icon.png"));
         box.setTitle(title);
         box.setMinWidth(380);
         box.setMinHeight(140);
@@ -30,11 +33,13 @@ public class AlertBox {
         Label label = new Label();
         label.setText(message);
         Button yes = new Button("Yes");
+        yes.setStyle("-fx-background-radius: 5;");
         yes.setOnAction(e -> {
             answer = true;
             box.close();
         });
         Button no = new Button("No");
+        no.setStyle("-fx-background-radius: 5;");
         no.setOnAction(e -> {
             answer = false;
             box.close();
@@ -57,41 +62,12 @@ public class AlertBox {
         return answer;
     }
 
-    public static boolean home(String title, String message) {
-        Stage box = new Stage();
-
-        box.initModality(Modality.APPLICATION_MODAL);
-        box.setTitle(title);
-        box.setMinWidth(350);
-
-        Label label = new Label();
-        label.setText(message);
-        Button yes = new Button("Yes");
-        yes.setOnAction(e -> {
-            answer = true;
-            box.close();
-        });
-        Button no = new Button("No");
-        no.setOnAction(e -> {
-            answer = false;
-            box.close();
-        });
-
-        VBox layout = new VBox(15);
-        layout.getChildren().addAll(label, yes, no);
-        layout.setAlignment(Pos.BOTTOM_CENTER);
-
-        Scene scene = new Scene(layout);
-        box.setScene(scene);
-        box.showAndWait();
-
-        return answer;
-    }
 
     public static boolean closeProgram(String title, String message) {
         Stage box = new Stage();
 
         box.initModality(Modality.APPLICATION_MODAL);
+        box.getIcons().add(new Image("button-icons/alert-icon.png"));
         box.setTitle(title);
         box.setMinWidth(350);
         box.setMinHeight(110);
@@ -101,11 +77,13 @@ public class AlertBox {
         Label label = new Label();
         label.setText(message);
         Button yes = new Button("Yes");
+        yes.setStyle("-fx-background-radius: 5;");
         yes.setOnAction(e -> {
             answer = true;
             box.close();
         });
         Button no = new Button("No");
+        no.setStyle("-fx-background-radius: 5;");
         no.setOnAction(e -> {
             answer = false;
             box.close();
@@ -132,11 +110,13 @@ public class AlertBox {
         Stage box = new Stage();
 
         box.initModality(Modality.APPLICATION_MODAL);
+        box.getIcons().add(new Image("button-icons/success-icon.png"));
         box.setTitle("Success");
         box.setMinWidth(380);
         box.setMinHeight(120);
 
         Button ok = new Button("OK");
+        ok.setStyle("-fx-background-radius: 5;");
         ok.setOnAction(e -> box.close());
 
         Label label = new Label();
@@ -157,11 +137,13 @@ public class AlertBox {
         Stage box = new Stage();
 
         box.initModality(Modality.APPLICATION_MODAL);
+        box.getIcons().add(new Image("button-icons/alert-icon.png"));
         box.setTitle("Error");
         box.setMinWidth(410);
         box.setMinHeight(140);
 
         Button ok = new Button("OK");
+        ok.setStyle("-fx-background-radius: 5;");
         ok.setOnAction(e -> box.close());
 
         Label label = new Label();
@@ -183,6 +165,7 @@ public class AlertBox {
         Stage box = new Stage();
 
         box.initModality(Modality.APPLICATION_MODAL);
+        box.getIcons().add(new Image("button-icons/alert-icon.png"));
         box.setTitle("Cancel");
         box.setMinWidth(380);
         box.setMinHeight(140);
@@ -192,11 +175,13 @@ public class AlertBox {
         Label label = new Label();
         label.setText(message);
         Button yes = new Button("Yes");
+        yes.setStyle("-fx-background-radius: 5;");
         yes.setOnAction(e -> {
             answer = true;
             box.close();
         });
         Button no = new Button("No");
+        no.setStyle("-fx-background-radius: 5;");
         no.setOnAction(e -> {
             answer = false;
             box.close();

@@ -1,0 +1,8 @@
+.root {
+    -fx-background-color: white;
+    button-hover-color: #87CEEB;
+}
+
+.button:hover {
+    -fx-background-color: button-hover-color;
+}

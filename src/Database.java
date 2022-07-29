@@ -17,10 +17,11 @@ public class Database {
 
     public void create_TB (){
         try {
-            String formula = "CREATE TABLE employees ("
+            String formula = "CREATE TABLE storedd ("
                     + "Full_Name varchar(100),"
                     + "Email varchar(100),"
-                    + "Phone int"
+                    + "Phone varchar(100),"
+                    + "Creation_Info varchar(100)"
                     + ")";
             Statement stmt = cursor.createStatement();
             stmt.execute(formula);
@@ -33,12 +34,13 @@ public class Database {
     }
 
 
-    public void createEmployee(String name, String email, int tel){
+    public void createEmployee(String name, String email, String tel, String creation){
         try {
-            PreparedStatement stmt = cursor.prepareStatement("INSERT INTO employees VALUES (?, ?, ?)");
+            PreparedStatement stmt = cursor.prepareStatement("INSERT INTO storedd VALUES (?, ?, ?, ?)");
             stmt.setString(1, name);
             stmt.setString(2, email);
-            stmt.setInt(3, tel);
+            stmt.setString(3, tel);
+            stmt.setString(4, creation);
             stmt.execute();
             System.out.println("success");
             stmt.close();
@@ -48,16 +50,16 @@ public class Database {
 
     }
 
-    public ArrayList<Integer> EmployeesPhones() {
+    public ArrayList<String> EmployeesPhones() {
 
-        ArrayList<Integer> employeePhones = new ArrayList<>();
+        ArrayList<String> employeePhones = new ArrayList<>();
 
         try {
             Statement stmt = cursor.createStatement();
-            ResultSet employee = stmt.executeQuery("SELECT * FROM employees");
+            ResultSet employee = stmt.executeQuery("SELECT * FROM storedd");
 
             while (employee.next()) {
-                int phone = employee.getInt("Phone");
+                String phone = employee.getString("Phone");
                 employeePhones.add(phone);
 
             }
@@ -76,7 +78,7 @@ public class Database {
 
         try {
             Statement stmt = cursor.createStatement();
-            ResultSet employee = stmt.executeQuery("SELECT * FROM employees");
+            ResultSet employee = stmt.executeQuery("SELECT * FROM storedd");
 
             while (employee.next()) {
                 String name = employee.getString("Full_Name");
@@ -97,7 +99,7 @@ public class Database {
 
         try {
             Statement stmt = cursor.createStatement();
-            ResultSet employee = stmt.executeQuery("SELECT * FROM employees");
+            ResultSet employee = stmt.executeQuery("SELECT * FROM storedd");
 
             while (employee.next()) {
                 String email = employee.getString("Email");
@@ -113,20 +115,40 @@ public class Database {
 
     }
 
+    public ArrayList<String> EmployeesCreationInfo(){
 
-    public void updateEmployee(String name, String email, int tel, String id){
+        ArrayList<String> employeeCreationInfo = new ArrayList<>();
 
-        Integer temp = tel;
-        String phone = temp.toString();
+        try {
+            Statement stmt = cursor.createStatement();
+            ResultSet employee = stmt.executeQuery("SELECT * FROM storedd");
+
+            while (employee.next()) {
+                String ci = employee.getString("Creation_Info");
+                employeeCreationInfo.add(ci);
+
+            }
+            stmt.close();
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+        return employeeCreationInfo;
+
+    }
+
+
+    public void updateEmployee(String name, String email, String tel, String id){
+
         try {
             PreparedStatement stmt = cursor.prepareStatement(
-                    "UPDATE employees " +
+                    "UPDATE storedd " +
                         "SET Full_Name = ?, Email = ?, Phone = ? " +
                         "WHERE Email = ?");
 
             stmt.setString(1, name);
             stmt.setString(2, email);
-            stmt.setString(3, phone);
+            stmt.setString(3, tel);
             stmt.setString(4, id);
             stmt.executeUpdate();
             stmt.close();
@@ -144,7 +166,7 @@ public class Database {
 
     public void deleteEmployee(String email){
         try {
-            PreparedStatement stmt = cursor.prepareStatement("DELETE FROM employees WHERE Email = ?");
+            PreparedStatement stmt = cursor.prepareStatement("DELETE FROM storedd WHERE Email = ?");
             stmt.setString(1, email);
             stmt.executeUpdate();
             System.out.println("success");
